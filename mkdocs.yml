@@ -40,6 +40,7 @@ nav:
     - 题解:
       - BZOJ3028 食物: BZOJ3028_food/main.md
       - HNOI2015 亚瑟王: HNOI2015_YaSeWang/main.md
+      - POJ1228 爷爷的遗产: POJ1228_GrandpasEstate/main.md
     - 算法:
       - 细说最短路: SP/main.md
     - 数据结构:
