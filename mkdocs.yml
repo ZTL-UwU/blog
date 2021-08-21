@@ -43,6 +43,7 @@ nav:
       - POJ1228 爷爷的遗产: POJ1228_GrandpasEstate/main.md
     - 算法:
       - 细说最短路: SP/main.md
+      - GAME THEORY: GAME_THEORY/main.md
     - 数据结构:
       - 树状数组: BIT/main.md
     - 模板:
