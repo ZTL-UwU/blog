@@ -25,7 +25,7 @@ $|V|$ 和 $|E|$ 分别为点数和边数。
 
 简单来说，就是求一张图中以 $1$ 为起点，$n$ 为终点的最短的一条路径的长度，如下图的最短路即为由 $1$ 为起点，$8$ 为终点的最短路径：$1\rightarrow2\rightarrow4\rightarrow8$ ，其路径长度为 $5+2+1=8$ ，小于图中其余的任何路径（如路径$1\rightarrow3\rightarrow8$ ，长度为 $1+9=10$ ）。
 
-![有向图](C:\Users\Tony\Documents\work\blog\SP\auGH8s.png)
+![有向图](https://z3.ax1x.com/2021/08/21/fj709f.png)
 
 # 单源最短路
 
@@ -63,6 +63,7 @@ struct edge // 一条边上的点 u、点 v、边权 w
     int v;
     int w;
 };
+
 vector<edge> e; // vector 存边方法存图
 int dis[MAX];   // 最短路长度
 
@@ -108,8 +109,6 @@ void Bellman_Ford()
     }
 }
 ```
-
-
 
 ### 算法复杂度
 
@@ -307,7 +306,7 @@ LLL 和 SLF ，
 >
 > Hack：网格图表现优秀，但是菊花图表现很差。
 >
-> ----
+> ---
 >
 > SLF + swap：每当队列改变时，如果队首距离大于队尾，则交换首尾。
 >
@@ -347,7 +346,7 @@ Dijkstra 算法的基本思路是贪心。Dijkstra 同样引入 $\operatorname{d
 
 ### 算法流程
 
-1. 初始化 $\operatorname{dis}[1]=0$ ，其余 $\operatorname{dis}$ 为 $\infty$ 。
+1. 初始化 $\operatorname{dis}[1]=0$ ，其余 $\operatorname{dis}$ 为 $\infin$ 。
 2. 找到不在确定 $\operatorname{dis}$ 集合 $C$ 中 $\operatorname{dis}$ 值最小的点 $u$ 。
 3. 枚举所有 $u$ 的出边 $u\rightarrow v$ 。
 4. 松弛更新点 $v$ ，若 `dis[v] > dis[u] + w` ，则使 `dis[v] = dis[u] + w` 。
@@ -400,7 +399,7 @@ void Dijkstra()
 
 循环 $n$ 次，每次遍历所有的点需要 $n^2$ 次，每次枚举出边共需要 $m$ 次。所以 Dijkstra 算法的时间复杂度为 $|V|^2+|E|$ ，又因为 $|E|$ 的值最大为所有点均相互连边的边数，即为 $C^2_{|V|}=\frac{|V|\times (|V|-1)}{2}<|V|^2$ 所以可以将 $|E|$ 视为常数。
 
-综上，Dijkstra 算法的时间复杂度应为 $O(|V|^2)$ (即 $O(n^2)$)。
+综上，Dijkstra 算法的时间复杂度应为 $O(|V|^2)$ （即 $O(n^2)$）。
 
 ### 堆优化
 
@@ -410,7 +409,7 @@ void Dijkstra()
 
 由 4.3.4 Dijkstra算法复杂度 中的分析，可以发现，朴素 Dijkstra 算法的效率瓶颈在于寻找图中 $\operatorname{dis}$ 值最小的点。其实我们没有必要每次都遍历所有的点来寻找 $\operatorname{dis}$ 值最小的。我们可以使用堆，每次只要取出堆顶的点即可。
 
-因为所有确定的点（在集合 $C$ 中的点）不会被作为前文 Dijkstra 中的点 $u$ 即前文图中的红点使用，而其余没有变为蓝点过，即没有被进行松弛更新的点的 $\operatorname{dis}$ 值都为 $\infty$ 。所以只有被松弛更新过，且不在集合 $C$ 中的点可能是 $\operatorname{dis}$ 值最小的点 $u$ 。
+因为所有确定的点（在集合 $C$ 中的点）不会被作为前文 Dijkstra 中的点 $u$ 即前文图中的红点使用，而其余没有变为蓝点过，即没有被进行松弛更新的点的 $\operatorname{dis}$ 值都为 $\infin$ 。所以只有被松弛更新过，且不在集合 $C$ 中的点可能是 $\operatorname{dis}$ 值最小的点 $u$ 。
 
 所以我们可以使用类似 BFS 的方法，在每次进行松弛更新时把点放入堆中。
 
@@ -426,6 +425,7 @@ struct node
     int v;
     int w;
 };
+
 struct data
 {
     int dis; // 用于在优先队列中找出所有点中 dis 值最小的点
@@ -438,6 +438,7 @@ struct data
         return this->num > x.num;
     }
 };
+
 vector<node> g[MAX];
 bool vis[MAX];
 int dis[MAX];
@@ -487,7 +488,12 @@ pq.push(make_pair(dis[v], v));
 
 #### 优化后复杂度
 
+BFS 共需遍历 $m$ 条边，而优先队列（堆）中同时至多有 $n$ 个点，实现优先队列（小根堆）的时间复杂度为 $O(\log n)$，每次遍历都从队列（堆）中取一个点。所以，堆优化后的 Dijkstra 时间复杂度为 $O(|E|\log |V|)$ （$O(m \log n)$）。
 
+- 在稀疏图中，$m \approx n$，故复杂度约为 $O(n\log n)$。
+- 在稠密图中，$m \leq n^2$，故复杂度约为 $O(n^2\log n)$。
+
+综上，堆优化 Dijkstra 在稀疏图上效率出众，但在稠密图上甚者可能略逊于朴素 Dijkstra。
 
 # 算法实际效率测试
 
